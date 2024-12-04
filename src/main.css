@@ -48,6 +48,7 @@ body {
   margin: 0;
   padding: 0;
   width: 263.93px;
+  min-width: 100px;
   min-height: 100px;
   padding: 36px 55px 26px 50px;
   margin-bottom: 15px;
@@ -96,6 +97,10 @@ body {
   padding: 4px 15px;
   font-size: 25px;
   align-self: flex-end;
+}
+
+.weather-icon {
+  font-size: 20px;
 }
 
 .data {
