@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="src/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz@0,14..32;1,14..32&display=swap" rel="stylesheet">
+    <title>Weather App</title>
+</head>
+<body>
+    <main>
+        <div class="page-main">
+            <ul class="data">
+                <li class="data__item">
+                    <div class="latitude">
+                        <label for="latitude">Широта</label>
+                        <input type="text" id="latitude" placeholder="Значение от -90 до +90">
+                    </div>
+                </li>
+                <li class="data__item">
+                    <div class="longitude">
+                        <label for="longitude">Долгота</label>
+                        <input type="text" id="longitude" placeholder="Значение от -180 до +180">
+                    </div>
+                </li>
+            </ul>
+            <button class="weather-button">Показать погоду</button>
+            <div class="weather-container">
+                <!-- <div class="card">
+                    <h2 class="card__city">Polevskoy</h2>
+                    <div class="card__weather">
+                        <div class="temp">28°</div>
+                        <img class="weather-icon" src="icons/sun/4.png" alt="Weather" width="130">
+                    </div>
+                    <div class="card__wind">Ветер: 4 м/с</div>
+                    <div class="card__humidity">Влажность: 100%</div>
+                    <button class="card__delete">Удалить</button>
+                </div> -->
+            </div>
+            
+        </div>
+    </main>
+    <script type="module" src="/src/main.js"></script>
+</body>
+</html>
