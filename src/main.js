@@ -1,8 +1,6 @@
 import { Application } from "./application.js";
 import conditions from "./condition.js";
 
-console.log(conditions)
-
 const app = new Application();
 app.run();
 
@@ -20,32 +18,30 @@ function removeCard(){
     });
 }
 
-function checkValues(latitude, longitude){
-    if (latitude === '' || longitude === ''){
-        alert('Пожалуйста, заполните оба поля: широту и долготу.')
-        return false
+function checkValues(latitude, longitude) {
+    const errors = [];
+    if (latitude === '' || longitude === '')
+        errors.push('Пожалуйста, заполните оба поля: широту и долготу.');
+    if (latitude.includes(',') || longitude.includes(',')) 
+        errors.push('Пожалуйста, используйте "." в качестве разделителя для дробных чисел.');
+    if (isNaN(latitude) || isNaN(longitude)) {
+        errors.push('Пожалуйста, введите числовые значения для широты и долготы.');
+        clearInput('latitude');
+        clearInput('longitude');
     }
-    if (latitude.includes(',') || longitude.includes(',')) {
-        alert('Пожалуйста, используйте "." в качестве разделителя для дробных чисел.');
+    if (latitude < -90 || latitude > 90) {
+        errors.push('Широта должна быть в диапазоне от -90 до +90.');
+        clearInput('latitude');
+    }
+    if (longitude < -180 || longitude > 180) {
+        errors.push('Долгота должна быть в диапазоне от -180 до +180.');
+        clearInput('longitude');
+    }
+    if (errors.length > 0) {
+        alert(errors.join('\n'));
         return false;
     }
-    if (isNaN(latitude) || isNaN(longitude)){
-        alert('Пожалуйста, введите числовые значения для широты и долготы.')
-        clearInput('latitude');
-        clearInput('longitude');
-        return false
-    }
-    if (latitude < -90 || latitude > 90){
-        alert('Широта должна быть в диапазоне от -90 до +90.')
-        clearInput('latitude');
-        return false
-    }
-    if (longitude < -180 || longitude > 180){
-        alert('Долгота должна быть в диапазоне от -180 до +180.')
-        clearInput('longitude');
-        return false
-    }
-    return true
+    return true;
 }
 
 function handleCoordinateError(error){
@@ -98,6 +94,23 @@ function getImgPath(data){
     return imgPath
 }
 
+function workData(latitude, longitude, data){
+    let mapPath = `https://static.maps.2gis.com/1.0?s=500x339&pt=${latitude},${longitude}~k:p~c:rd~s:s`
+    let weatherData = {
+        name: data.location.name,
+        temp: data.current.temp_c,
+        wind: convertWindSpeed(data.current.wind_kph),
+        humidity: data.current.humidity,
+        imgPath: getImgPath(data),
+        mapPath: mapPath
+    }; 
+
+    showCard(weatherData);  
+
+    clearInput('latitude');
+    clearInput('longitude');
+}
+
 currentWeather.onclick = async function(e) {
     e.preventDefault();
     let latitude = document.getElementById('latitude').value.trim();
@@ -111,21 +124,7 @@ currentWeather.onclick = async function(e) {
         handleCoordinateError(data.error);
         clearInput('latitude');
         clearInput('longitude');
-    } else {
-        let mapPath = `https://static.maps.2gis.com/1.0?s=500x339&pt=${latitude},${longitude}~k:p~c:rd~s:s`
-        let weatherData = {
-            name: data.location.name,
-            temp: data.current.temp_c,
-            wind: convertWindSpeed(data.current.wind_kph),
-            humidity: data.current.humidity,
-            imgPath: getImgPath(data),
-            mapPath: mapPath
-        }; 
-
-        showCard(weatherData);  
-
-        clearInput('latitude');
-        clearInput('longitude');
-    }
+    } else 
+        workData(latitude, longitude, data)
 };
 removeCard()
