@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  client:
+    container_name: my_weather
+    build: ./
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - ./index.html:/usr/share/nginx/html/index.html
+      - ./src:/usr/share/nginx/html/src
+      - ./icons:/usr/share/nginx/html/icons
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
